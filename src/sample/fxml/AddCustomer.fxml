@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.AddCustomerController">
+   <children>
+      <Label fx:id="addOrUpdateCustomer" layoutX="40.0" layoutY="25.0" text="Add Customer">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
+      <Label layoutX="100.0" layoutY="80.0" text="ID" />
+      <Label layoutX="100.0" layoutY="120.0" text="Name" />
+      <Label layoutX="100.0" layoutY="160.0" text="Address" />
+      <Label layoutX="100.0" layoutY="200.0" text="Postal Code" />
+      <Label layoutX="100.0" layoutY="240.0" text="Phone Number" />
+      <TextField fx:id="id" disable="true" layoutX="200.0" layoutY="75.0" promptText="Auto Generated" />
+      <TextField fx:id="name" layoutX="200.0" layoutY="115.0" promptText="Name" />
+      <TextField fx:id="address" layoutX="200.0" layoutY="155.0" promptText="Address" />
+      <TextField fx:id="postalCode" layoutX="200.0" layoutY="195.0" promptText="Postal Code" />
+      <TextField fx:id="phoneNumber" layoutX="200.0" layoutY="235.0" promptText="Phone Number" />
+      <ComboBox fx:id="country" layoutX="400.0" layoutY="75.0" onAction="#setStates" prefWidth="150.0" promptText="Country">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Canada" />
+               <String fx:value="United Kingdom" />
+               <String fx:value="United States" />
+            </FXCollections>
+         </items>
+      </ComboBox>
+      <ComboBox fx:id="state" layoutX="400.0" layoutY="115.0" prefWidth="150.0" promptText="State/Province" />
+      <Button layoutX="400.0" layoutY="300.0" mnemonicParsing="false" onAction="#addCustomer" text="Save" />
+      <Button layoutX="475.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToMain" text="Cancel" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.ReportsController">
+   <children>
+      <Label layoutX="75.0" layoutY="75.0" text="Total Number of Appointments:" />
+      <Label layoutX="40.0" layoutY="25.0" text="Reports">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="100.0" layoutY="120.0" text="Type" />
+      <Label layoutX="100.0" layoutY="160.0" text="Month" />
+      <TextField fx:id="type" layoutX="160.0" layoutY="115.0" onKeyTyped="#setTotalTypeMonth" promptText="Type" />
+      <TextField fx:id="month" layoutX="160.0" layoutY="155.0" onKeyTyped="#setTotalTypeMonth" promptText="Month" />
+      <Label fx:id="totalTypeMonth" layoutX="275.0" layoutY="75.0" />
+      <Label layoutX="100.0" layoutY="275.0" text="Contact" />
+      <ComboBox fx:id="contact" layoutX="150.0" layoutY="275.0" onAction="#setTable" prefWidth="150.0" promptText="Contact" />
+      <TableView fx:id="appointmentTable" layoutX="100.0" layoutY="325.0" prefHeight="200.0" prefWidth="850.0">
+        <columns>
+            <TableColumn fx:id="idColumn" minWidth="75.0" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="titleColumn" minWidth="100.0" prefWidth="100.0" text="Title" />
+          <TableColumn fx:id="typeColumn" minWidth="100.0" prefWidth="100.0" text="Type" />
+            <TableColumn fx:id="descriptionColumn" minWidth="100.0" prefWidth="100.0" text="Description" />
+            <TableColumn fx:id="startDateColumn" minWidth="100.0" prefWidth="100.0" text="Start Date" />
+            <TableColumn fx:id="startTimeColumn" minWidth="100.0" prefWidth="100.0" text="Start Time" />
+            <TableColumn fx:id="endDateColumn" minWidth="100.0" prefWidth="100.0" text="End Date" />
+            <TableColumn fx:id="endTimeColumn" minWidth="100.0" prefWidth="100.0" text="End Time" />
+            <TableColumn fx:id="customerIdColumn" prefWidth="75.0" text="Customer ID" />
+        </columns>
+      </TableView>
+      <Label layoutX="75.0" layoutY="225.0" text="Appointment Schedule:" />
+      <Button layoutX="850.0" layoutY="550.0" mnemonicParsing="false" onAction="#switchToMain" text="Return" />
+      <Label layoutX="600.0" layoutY="75.0" text="Total Number of Appointments:" />
+      <Label layoutX="625.0" layoutY="120.0" text="Start Date" />
+      <Label layoutX="625.0" layoutY="160.0" text="End Date" />
+      <DatePicker fx:id="startDatePicker" layoutX="700.0" layoutY="115.0" onAction="#setTotalDate" />
+      <DatePicker fx:id="endDatePicker" layoutX="700.0" layoutY="155.0" onAction="#setTotalDate" />
+      <Label fx:id="totalDate" layoutX="800.0" layoutY="75.0" />
+   </children>
+</AnchorPane>

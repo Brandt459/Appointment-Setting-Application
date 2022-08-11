@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="375.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.CustomerRecordsController">
+   <children>
+      <Label layoutX="40.0" layoutY="25.0" text="Customer Records">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <TableView fx:id="customerTable" layoutX="50.0" layoutY="75.0" prefHeight="200.0" prefWidth="650.0">
+        <columns>
+          <TableColumn fx:id="idColumn" minWidth="75.0" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="nameColumn" minWidth="100.0" prefWidth="100.0" text="Name" />
+            <TableColumn fx:id="addressColumn" minWidth="100.0" prefWidth="100.0" text="Address" />
+            <TableColumn fx:id="stateColumn" minWidth="100.0" prefWidth="100.0" text="State/Province" />
+            <TableColumn fx:id="countryColumn" minWidth="100.0" prefWidth="100.0" text="Country" />
+            <TableColumn fx:id="postalColumn" minWidth="75.0" prefWidth="75.0" text="Postal Code" />
+            <TableColumn fx:id="phoneColumn" minWidth="100.0" prefWidth="100.0" text="Phone Number" />
+        </columns>
+      </TableView>
+      <Button layoutX="280.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToAddCustomer" text="Add Customer" />
+      <Button layoutX="380.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToUpdateCustomer" text="Update Customer" />
+      <Button layoutX="650.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToMain" text="Return" />
+      <Button layoutX="500.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
+   </children>
+</AnchorPane>
