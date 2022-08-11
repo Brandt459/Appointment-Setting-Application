@@ -4,15 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 import sample.classes.Appointment;
+import sample.classes.FormatPath;
 import sample.classes.JDBC;
 import sample.classes.SwitchScene;
 
@@ -24,25 +20,85 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Controller for the Reports FXML file
+ * @author Brandt Davis
+ * @version 1.0
+ */
 public class ReportsController {
+    /**
+     * Pointer to the FXML total by type and month label
+     */
     @FXML private Label totalTypeMonth;
+    /**
+     * Pointer to the FXML type text field
+     */
     @FXML private TextField type;
+    /**
+     * Pointer to the FXML month text field
+     */
     @FXML private TextField month;
+    /**
+     * Pointer to the FXML contact combo box
+     */
     @FXML private ComboBox<String> contact;
+    /**
+     * Pointer to the FXML appointment table view
+     */
     @FXML private TableView<Appointment> appointmentTable;
+    /**
+     * Pointer to the FXML id table column
+     */
     @FXML private TableColumn idColumn;
+    /**
+     * Pointer to the FXML title table column
+     */
     @FXML private TableColumn titleColumn;
+    /**
+     * Pointer to the FXML type table column
+     */
     @FXML private TableColumn typeColumn;
+    /**
+     * Pointer to the FXML description table column
+     */
     @FXML private TableColumn descriptionColumn;
+    /**
+     * Pointer to the FXML start date table column
+     */
     @FXML private TableColumn startDateColumn;
+    /**
+     * Pointer to the FXML start time table column
+     */
     @FXML private TableColumn startTimeColumn;
+    /**
+     * Pointer to the FXML end date table column
+     */
     @FXML private TableColumn endDateColumn;
+    /**
+     * Pointer to theFXML end time table column
+     */
     @FXML private TableColumn endTimeColumn;
+    /**
+     * Pointer to the FXML customer id table column
+     */
     @FXML private TableColumn customerIdColumn;
+    /**
+     * Pointer to the FXML total by date label
+     */
     @FXML private Label totalDate;
+    /**
+     * Pointer to the FXML start date picker
+     */
     @FXML private DatePicker startDatePicker;
+    /**
+     * Pointer to the FXML end date picker
+     */
     @FXML private DatePicker endDatePicker;
 
+    /**
+     * Sets the contact combo box upon initialization
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void initialize() throws Exception {
         Connection conn = JDBC.getConnection();
@@ -55,6 +111,11 @@ public class ReportsController {
         contact.setItems(contacts);
     }
 
+    /**
+     * Sets the total amount of appointments by type and month
+     * @param event KeyEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void setTotalTypeMonth(KeyEvent event) throws Exception {
         if (!(type.getText().equals("") || month.getText().equals(""))) {
@@ -82,6 +143,11 @@ public class ReportsController {
         }
     }
 
+    /**
+     * Sets the total amount of appointments between 2 dates
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void setTotalDate(ActionEvent event) throws Exception {
         if (!(startDatePicker.getValue() == null || endDatePicker.getValue() == null)) {
@@ -115,6 +181,11 @@ public class ReportsController {
         }
     }
 
+    /**
+     * Sets the schedule for a contact upon selecting a contact
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void setTable(ActionEvent event) throws Exception {
         Connection conn = JDBC.getConnection();
@@ -169,8 +240,13 @@ public class ReportsController {
         appointmentTable.setItems(appointments);
     }
 
+    /**
+     * Switches to the Main scene
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToMain(ActionEvent event) throws Exception {
-        SwitchScene.switchScene(event, "../fxml/Main.fxml");
+        SwitchScene.switchScene(event, FormatPath.format().run("Main"));
     }
 }

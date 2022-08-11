@@ -3,6 +3,7 @@ package sample.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import sample.classes.FormatPath;
 import sample.classes.JDBC;
 import sample.classes.SwitchScene;
 
@@ -18,17 +19,50 @@ import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-
+/**
+ * Controller for the Login FXML file
+ * @author Brandt Davis
+ * @version 1.0
+ */
 public class LoginController {
+    /**
+     * Pointer to the FXML login label
+     */
     @FXML private Label loginLabel;
+    /**
+     * Pointer to the FXML username label
+     */
     @FXML private Label usernameLabel;
+    /**
+     * Pointer to the FXML password Label
+     */
     @FXML private Label passwordLabel;
+    /**
+     * Pointer to the FXML username text field
+     */
     @FXML private TextField username;
+    /**
+     * Pointer to the FXML password field
+     */
     @FXML private PasswordField password;
+    /**
+     * Pointer to the FXML zone label
+     */
     @FXML private Label zone;
+    /**
+     * Pointer to the FXML login button
+     */
     @FXML private Button loginButton;
+    /**
+     * Locale of user
+     */
     private Locale locale = Locale.getDefault();
 
+    /**
+     * Attempts to log a user in and displays if there is an upcoming appointment within 15 minutes
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void login(ActionEvent event) throws Exception {
         Connection conn = JDBC.getConnection();
@@ -71,10 +105,14 @@ public class LoginController {
         Path fileName = Path.of("/Users/LabUser/IdeaProjects/HelloWorldJFX/login_activity.txt");
         Files.writeString(fileName, text, StandardOpenOption.APPEND);
         if (success) {
-            SwitchScene.switchScene(event, "../fxml/Main.fxml");
+            SwitchScene.switchScene(event, FormatPath.format().run("Main"));
         }
     }
 
+    /**
+     * Sets the labels to english or french upon initialization
+     * @throws Exception Exception in encountered
+     */
     @FXML
     public void initialize() throws Exception {
         ResourceBundle rb = ResourceBundle.getBundle("sample.resourcebundles.Labels", locale);

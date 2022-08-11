@@ -32,8 +32,8 @@
       <ComboBox fx:id="contact" layoutX="200.0" layoutY="235.0" prefWidth="150.0" promptText="Contact" />
       <DatePicker fx:id="startDate" layoutX="550.0" layoutY="115.0" promptText="Start Date" />
       <DatePicker fx:id="endDate" layoutX="550.0" layoutY="195.0" promptText="End Date" />
-      <TextField fx:id="startTime" layoutX="550.0" layoutY="155.0" promptText="Start Time" />
-      <TextField fx:id="endTime" layoutX="550.0" layoutY="235.0" promptText="End Time" />
+      <TextField fx:id="startTime" layoutX="550.0" layoutY="155.0" promptText="HH:mm:ss" />
+      <TextField fx:id="endTime" layoutX="550.0" layoutY="235.0" promptText="HH:mm:ss" />
       <Label layoutX="400.0" layoutY="160.0" text="Start Time" />
       <Label layoutX="400.0" layoutY="240.0" text="End Time" />
    </children>

@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import sample.classes.Appointment;
+import sample.classes.FormatPath;
 import sample.classes.JDBC;
 import sample.classes.SwitchScene;
 
@@ -27,31 +28,98 @@ import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Optional;
 
+/**
+ * Controller fo the Appointmenr Records FXML file
+ * @author Brandt Davis
+ * @version 1.0
+ */
 public class AppointmentRecordsController {
+    /**
+     * Pointer to the FXML appointment table table view
+     */
     @FXML private TableView<Appointment> appointmentTable;
+    /**
+     * Pointer to the FXML id table column
+     */
     @FXML private TableColumn idColumn;
+    /**
+     * Pointer to the FXML title table column
+     */
     @FXML private TableColumn titleColumn;
+    /**
+     * Pointer to the FXML description table column
+     */
     @FXML private TableColumn descriptionColumn;
+    /**
+     * Pointer to the FXML location table column
+     */
     @FXML private TableColumn locationColumn;
+    /**
+     * Pointer to the FXML contact table column
+     */
     @FXML private TableColumn contactColumn;
+    /**
+     * Pointer to the FXML type table column
+     */
     @FXML private TableColumn typeColumn;
+    /**
+     * Pointer to the FXML start date table column
+     */
     @FXML private TableColumn startDateColumn;
+    /**
+     * Pointer to the FXML star time table column
+     */
     @FXML private TableColumn startTimeColumn;
+    /**
+     * Pointer to the FXML end date table column
+     */
     @FXML private TableColumn endDateColumn;
+    /**
+     * Pointer to the FXML end time table column
+     */
     @FXML private TableColumn endTimeColumn;
+    /**
+     * Pointer to the FXML customer id table column
+     */
     @FXML private TableColumn customerIdColumn;
+    /**
+     * Pointer to the FXML user id table column
+     */
     @FXML private TableColumn userIdColumn;
+    /**
+     * Pointer to the FXML filter by month radio button
+     */
     @FXML private RadioButton filterMonth;
+    /**
+     * Pointer to the FXML filter by week radio button
+     */
     @FXML private RadioButton filterWeek;
+    /**
+     * Pointer to the FXML filter by month text field
+     */
     @FXML private TextField filterMonthText;
+    /**
+     * Pointer to the FXML filter by week text field
+     */
     @FXML private TextField filterWeekText;
+    /**
+     * List that will hold all appointment objects
+     */
     private ObservableList<Appointment> appointmentsList = FXCollections.observableArrayList();
 
+    /**
+     * Sets the appointment table upon initialization
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void initialize() throws Exception {
         setAppointmentTable();
     }
 
+    /**
+     * Sets the appointment table
+     * @throws Exception Exception if encountered
+     */
     public void setAppointmentTable() throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT * FROM appointments", conn);
@@ -103,11 +171,19 @@ public class AppointmentRecordsController {
         appointmentTable.setItems(appointments);
     }
 
+    /**
+     * Sets the appointment table when No Filter is selected
+     * @param event ActionEvent Object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void setAppointmentTable(ActionEvent event) throws Exception {
         setAppointmentTable();
     }
 
+    /**
+     * Filters the appointment table by month or week based on which is selected
+     */
     public void filter() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         if (filterMonth.isSelected()) {
@@ -129,26 +205,51 @@ public class AppointmentRecordsController {
         }
     }
 
+    /**
+     * Calls the filter() method when a character is entered into one of the filter text views
+     * @param event KeyEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void filter(KeyEvent event) throws Exception {
         filter();
     }
 
+    /**
+     * Calls the filter() method when one of the filter radio buttons is selected
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     private void filterRadio(ActionEvent event) throws Exception {
         filter();
     }
 
+    /**
+     * Switches to the main scene
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToMain(ActionEvent event) throws Exception {
-        SwitchScene.switchScene(event, "../fxml/Main.fxml");
+        SwitchScene.switchScene(event, FormatPath.format().run("Main"));
     }
 
+    /**
+     * Switches to the Add Appointment scene
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToAddAppointment(ActionEvent event) throws Exception {
-        SwitchScene.switchScene(event, "../fxml/AddAppointment.fxml");
+        SwitchScene.switchScene(event, FormatPath.format().run("AddAppointment"));
     }
 
+    /**
+     * Switches to the Add Appointment scene and passes the Appointment object
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToUpdateAppointment(ActionEvent event) throws Exception {
         if (appointmentTable.getSelectionModel().getSelectedItem() == null) {
@@ -157,7 +258,7 @@ public class AppointmentRecordsController {
             errorAlert.setContentText("No appointment selected");
             errorAlert.show();
         } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/AddAppointment.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FormatPath.format().run("AddAppointment")));
             Parent root = loader.load();
             AddAppointmentController controller = loader.getController();
             controller.setScene("Update Appointment", appointmentTable.getSelectionModel().getSelectedItem());
@@ -168,6 +269,11 @@ public class AppointmentRecordsController {
         }
     }
 
+    /**
+     * Deletes an appointment
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void deleteAppointment(ActionEvent event) throws Exception {
         if (appointmentTable.getSelectionModel().getSelectedItem() == null) {

@@ -8,6 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import sample.classes.Customer;
+import sample.classes.FormatPath;
 import sample.classes.JDBC;
 import sample.classes.SwitchScene;
 
@@ -17,17 +18,54 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Controller for the AddCustomer FXML file
+ * @author Brandt Davis
+ * @version 1.0
+ */
 public class AddCustomerController {
+    /**
+     * Pointer to the FXML label holding "Add Customer" or "Update Customer" text
+     */
     @FXML private Label addOrUpdateCustomer;
+    /**
+     * Pointer to the FXML ID text field
+     */
     @FXML private TextField id;
+    /**
+     * Pointer to the FXML name text field
+     */
     @FXML private TextField name;
+    /**
+     * Pointer to the FXML address text field
+     */
     @FXML private TextField address;
+    /**
+     * Pointer to the postal code text field
+     */
     @FXML private TextField postalCode;
+    /**
+     * Pointer to the phone number text field
+     */
     @FXML private TextField phoneNumber;
+    /**
+     * Pointer to the country combo box
+     */
     @FXML private ComboBox country;
+    /**
+     * Pointer to the state combo box
+     */
     @FXML private ComboBox state;
+    /**
+     * username of the logged in user
+     */
     private String username = JDBC.getLoggedInUsername();
 
+    /**
+     * Sets the values for all customer data when updating a customer
+     * @param addOrUpdateCustomerText Update Customer text
+     * @param customer Customer object
+     */
     public void setScene(String addOrUpdateCustomerText, Customer customer) {
         addOrUpdateCustomer.setText(addOrUpdateCustomerText);
         id.setText(String.valueOf(customer.getId()));
@@ -39,11 +77,20 @@ public class AddCustomerController {
         state.setValue(customer.getState());
     }
 
+    /**
+     * Sets the state combo box values upon initialization
+     * @throws Exception
+     */
     @FXML
     public void initialize() throws Exception {
         setStates(new ActionEvent());
     }
 
+    /**
+     * Adds or updates a customer
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void addCustomer(ActionEvent event) throws Exception {
         Timestamp instant = Timestamp.from(Instant.now());
@@ -67,6 +114,11 @@ public class AddCustomerController {
         switchToMain(event);
     }
 
+    /**
+     * Sets the states combo box values by the selected country
+     * @param event ActionEvent Object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void setStates(ActionEvent event) throws Exception {
         Connection conn = JDBC.getConnection();
@@ -89,8 +141,13 @@ public class AddCustomerController {
         state.setItems(states);
     }
 
+    /**
+     * Switches to the main scene
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToMain(ActionEvent event) throws Exception {
-        SwitchScene.switchScene(event, "../fxml/Main.fxml");
+        SwitchScene.switchScene(event, FormatPath.format().run("Main"));
     }
 }

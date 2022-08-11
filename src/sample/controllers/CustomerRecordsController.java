@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sample.classes.Customer;
+import sample.classes.FormatPath;
 import sample.classes.JDBC;
 import sample.classes.SwitchScene;
 
@@ -22,21 +23,58 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.Optional;
 
+/**
+ * Controller for the Customer Records FXML file
+ * @author Brandt Davis
+ * @version 1.0
+ */
 public class CustomerRecordsController {
+    /**
+     * Pointer to the FXML customer table view
+     */
     @FXML private TableView<Customer> customerTable;
+    /**
+     * Pointer to the FXML id table column
+     */
     @FXML private TableColumn idColumn;
+    /**
+     * Pointer to the FXML name table column
+     */
     @FXML private TableColumn nameColumn;
+    /**
+     * Pointer to the FXML address table column
+     */
     @FXML private TableColumn addressColumn;
+    /**
+     * Pointer to the FXML state/province table column
+     */
     @FXML private TableColumn stateColumn;
+    /**
+     * Pointer to the FXML country table column
+     */
     @FXML private TableColumn countryColumn;
+    /**
+     * Pointer to the FXML postal code table column
+     */
     @FXML private TableColumn postalColumn;
+    /**
+     * Pointer to the FXML phone number table column
+     */
     @FXML private TableColumn phoneColumn;
 
+    /**
+     * Sets the customer table upon initialization
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void initialize() throws Exception {
         setCustomerTables();
     }
 
+    /**
+     * Sets the customer table
+     * @throws Exception Exception if encountered
+     */
     public void setCustomerTables() throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT * FROM customers", conn);
@@ -62,16 +100,31 @@ public class CustomerRecordsController {
         customerTable.setItems(customers);
     }
 
+    /**
+     * Switches to the Main scene
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToMain(ActionEvent event) throws Exception {
-        SwitchScene.switchScene(event, "../fxml/Main.fxml");
+        SwitchScene.switchScene(event, FormatPath.format().run("Main"));
     }
 
+    /**
+     * Switches to the Add Customer scene
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToAddCustomer(ActionEvent event) throws Exception {
-        SwitchScene.switchScene(event, "../fxml/AddCustomer.fxml");
+        SwitchScene.switchScene(event, FormatPath.format().run("AddCustomer"));
     }
 
+    /**
+     * Switches to the Add Customer scene and passes the customer object
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToUpdateCustomer(ActionEvent event) throws Exception {
         if (customerTable.getSelectionModel().getSelectedItem() == null) {
@@ -80,7 +133,7 @@ public class CustomerRecordsController {
             errorAlert.setContentText("No customer selected");
             errorAlert.show();
         } else {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../fxml/AddCustomer.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(FormatPath.format().run("AddCustomer")));
             Parent root = loader.load();
             AddCustomerController controller = loader.getController();
             controller.setScene("Update Customer", customerTable.getSelectionModel().getSelectedItem());
@@ -91,6 +144,11 @@ public class CustomerRecordsController {
         }
     }
 
+    /**
+     * Deletes a customer
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void deleteCustomer(ActionEvent event) throws Exception {
         if (customerTable.getSelectionModel().getSelectedItem() == null) {

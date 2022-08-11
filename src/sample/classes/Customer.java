@@ -3,15 +3,51 @@ package sample.classes;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
+/**
+ * Class to hold customer details
+ * @author Brandt Davis
+ * @version 1.0
+ */
 public class Customer {
+    /**
+     * ID of the customer
+     */
     private int id;
+    /**
+     * Name of the customer
+     */
     private String name;
+    /**
+     * Address of the customer
+     */
     private String address;
+    /**
+     * State/Province/Division the customer is in
+     */
     private String state;
+    /**
+     * Country the customer is in
+     */
     private String country;
+    /**
+     * Postal code of the customer
+     */
     private String postalCode;
+    /**
+     * Phone number of the customer
+     */
     private String phoneNumber;
 
+    /**
+     * Customer constructor assigning all the private variables
+     * @param id ID of the customer
+     * @param name Name of the customer
+     * @param address Address of the customer
+     * @param divisionId Division ID for the state/province/division the customer is in
+     * @param postalCode Postal code of the customer
+     * @param phoneNumber Phone number of the customer
+     * @throws Exception Exception if encountered
+     */
     public Customer(int id, String name, String address, int divisionId, String postalCode, String phoneNumber) throws Exception {
         this.id = id;
         this.name = name;
@@ -33,30 +69,58 @@ public class Customer {
         }
     }
 
+    /**
+     * Returns the customer ID
+     * @return THe customer ID
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Returns the customer Name
+     * @return The customer Name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the customer's address
+     * @return The customer's address
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Returns the state/province/division the customer is in
+     * @return THe state/province/division the customer is in
+     */
     public String getState() {
         return state;
     }
 
+    /**
+     * Returns the country the customer is in
+     * @return The country the customer is in
+     */
     public String getCountry() {
         return country;
     }
 
+    /**
+     * Returns the postal code of the customer
+     * @return The postal code of the customer
+     */
     public String getPostalCode() {
         return postalCode;
     }
 
+    /**
+     * Returns the customer's phone number
+     * @return The customer's phone number
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }

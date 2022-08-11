@@ -5,9 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import sample.classes.Appointment;
-import sample.classes.JDBC;
-import sample.classes.SwitchScene;
+import sample.classes.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,23 +13,77 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+/**
+ * Controller for the AddAppointment FXML file
+ * @author Brandt Davis
+ * @version 1.0
+ */
 public class AddAppointmentController {
+    /**
+     * Pointer to the FXML label holding "Add Appointment" or "Update Appointment" based on which is being done
+     */
     @FXML private Label addOrUpdateAppointment;
+    /**
+     * Pointer to the FXML id text field
+     */
     @FXML private TextField id;
+    /**
+     * Pointer to the FXML title text field
+     */
     @FXML private TextField title;
+    /**
+     * Pointer to the FXML description text field
+     */
     @FXML private TextField description;
+    /**
+     * Pointer to the FXML location text field
+     */
     @FXML private TextField locationValue;
+    /**
+     * Pointer to the contact combo box
+     */
     @FXML private ComboBox<String> contact;
+    /**
+     * Pointer to the type text field
+     */
     @FXML private TextField type;
+    /**
+     * Pointer to the start date date picker
+     */
     @FXML private DatePicker startDate;
+    /**
+     * Pointer to the start tiem text field
+     */
     @FXML private TextField startTime;
+    /**
+     * Pointer to the end date date picker
+     */
     @FXML private DatePicker endDate;
+    /**
+     * Pointer to the end time text field
+     */
     @FXML private TextField endTime;
+    /**
+     * Pointer to the customer ID text field
+     */
     @FXML private TextField customerId;
+    /**
+     * Pointer to the user ID text field
+     */
     @FXML private TextField userId;
+    /**
+     * Username of the logged in user
+     */
     private String username = JDBC.getLoggedInUsername();
 
+    /**
+     * Sets the values for all appointment data when updating an appointment
+     * @param addOrUpdateAppointmentText Update Appointment text
+     * @param appointment Appointment object
+     */
     public void setScene(String addOrUpdateAppointmentText, Appointment appointment) {
         addOrUpdateAppointment.setText(addOrUpdateAppointmentText);
         id.setText(String.valueOf(appointment.getId()));
@@ -48,6 +100,10 @@ public class AddAppointmentController {
         userId.setText(String.valueOf(appointment.getUserId()));
     }
 
+    /**
+     * Populates the contact combo box upon initialization
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void initialize() throws Exception {
         Connection conn = JDBC.getConnection();
@@ -60,8 +116,24 @@ public class AddAppointmentController {
         contact.setItems(contacts);
     }
 
+    /**
+     * Adds or updates an appointment
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void addAppointment(ActionEvent event) throws Exception {
+        Pattern regexPattern = Pattern.compile("^[0-9][0-9]:[0-9][0-9]:[0-9][0-9]$");
+        Matcher startTimeMatcher = regexPattern.matcher(startTime.getText());
+        Matcher endTimeMatcher = regexPattern.matcher(endTime.getText());
+        if (!(startTimeMatcher.matches() && endTimeMatcher.matches())) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setHeaderText("Cannot Create Appointment");
+            errorAlert.setContentText("Start and end time must be in the format HH:mm:ss");
+            errorAlert.show();
+            return;
+        }
+
         Timestamp instant = Timestamp.from(Instant.now());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
 
@@ -113,8 +185,8 @@ public class AddAppointmentController {
                 String[] sArr = s.split(" ");
                 String[] eArr = e.split(" ");
 
-                ZonedDateTime startTime = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC"));
-                ZonedDateTime endTime = LocalDateTime.parse(eArr[0] + "T" + eArr[1]).atZone(ZoneId.of("Etc/UTC"));
+                ZonedDateTime startTime = UTC.getUTC().run(sArr[0], sArr[1]);
+                ZonedDateTime endTime = UTC.getUTC().run(eArr[0], eArr[1]);
 
                 if (start.compareTo(endTime) < 0 && startTime.compareTo(end) < 0) {
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -135,8 +207,8 @@ public class AddAppointmentController {
                 String[] sArr = s.split(" ");
                 String[] eArr = e.split(" ");
 
-                ZonedDateTime startTime = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC"));
-                ZonedDateTime endTime = LocalDateTime.parse(eArr[0] + "T" + eArr[1]).atZone(ZoneId.of("Etc/UTC"));
+                ZonedDateTime startTime = UTC.getUTC().run(sArr[0], sArr[1]);
+                ZonedDateTime endTime = UTC.getUTC().run(eArr[0], eArr[1]);
 
                 if (start.compareTo(endTime) < 0 && startTime.compareTo(end) < 0) {
                     Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -162,8 +234,13 @@ public class AddAppointmentController {
         switchToMain(event);
     }
 
+    /**
+     * Switches to the main scene
+     * @param event ActionEvent object
+     * @throws Exception Exception if encountered
+     */
     @FXML
     public void switchToMain(ActionEvent event) throws Exception {
-        SwitchScene.switchScene(event, "../fxml/Main.fxml");
+        SwitchScene.switchScene(event, FormatPath.format().run("Main"));
     }
 }
