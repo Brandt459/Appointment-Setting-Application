@@ -2,6 +2,7 @@ package sample.classes;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Objects;
 
 /**
  * Class to hold customer details
@@ -12,15 +13,15 @@ public class Customer {
     /**
      * ID of the customer
      */
-    private int id;
+    private final int id;
     /**
      * Name of the customer
      */
-    private String name;
+    private final String name;
     /**
      * Address of the customer
      */
-    private String address;
+    private final String address;
     /**
      * State/Province/Division the customer is in
      */
@@ -32,11 +33,11 @@ public class Customer {
     /**
      * Postal code of the customer
      */
-    private String postalCode;
+    private final String postalCode;
     /**
      * Phone number of the customer
      */
-    private String phoneNumber;
+    private final String phoneNumber;
 
     /**
      * Customer constructor assigning all the private variables
@@ -56,7 +57,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT Division, Country_ID FROM first_level_divisions WHERE Division_ID = '" + divisionId + "'", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         String countryId = "";
         while (result.next()) {
             state = result.getString("Division");

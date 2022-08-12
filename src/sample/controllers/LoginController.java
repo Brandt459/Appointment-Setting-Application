@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -56,7 +57,7 @@ public class LoginController {
     /**
      * Locale of user
      */
-    private Locale locale = Locale.getDefault();
+    private final Locale locale = Locale.getDefault();
 
     /**
      * Attempts to log a user in and displays if there is an upcoming appointment within 15 minutes
@@ -67,7 +68,7 @@ public class LoginController {
     public void login(ActionEvent event) throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT User_ID FROM USERS WHERE User_Name = '" + username.getText() + "' AND Password = '" + password.getText() + "'", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         boolean success = false;
         if (!result.next()) {
             ResourceBundle rb = ResourceBundle.getBundle("sample.resourcebundles.Errors", locale);
@@ -83,7 +84,7 @@ public class LoginController {
             boolean upcomingAppointment = false;
             while (result.next()) {
                 String[] sArr = result.getString("Start").split(" ");
-                ZonedDateTime start = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC")).toInstant().atZone(ZoneId.systemDefault());;
+                ZonedDateTime start = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC")).toInstant().atZone(ZoneId.systemDefault());
                 if (start.compareTo(now) > 0 && now.plusMinutes(15).compareTo(start) >= 0) {
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setHeaderText("Upcoming Appointment");

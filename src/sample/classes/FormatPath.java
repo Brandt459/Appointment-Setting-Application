@@ -13,7 +13,6 @@ public class FormatPath {
      * @return lambda function
      */
     public static StringFunction format() {
-        StringFunction fxml = (s) -> "../fxml/" + s + ".fxml";
-        return fxml;
+        return (s) -> "../fxml/" + s + ".fxml";
     }
 }

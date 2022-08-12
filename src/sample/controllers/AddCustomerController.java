@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -51,15 +52,15 @@ public class AddCustomerController {
     /**
      * Pointer to the country combo box
      */
-    @FXML private ComboBox country;
+    @FXML private ComboBox<String> country;
     /**
      * Pointer to the state combo box
      */
-    @FXML private ComboBox state;
+    @FXML private ComboBox<String> state;
     /**
      * username of the logged in user
      */
-    private String username = JDBC.getLoggedInUsername();
+    private final String username = JDBC.getLoggedInUsername();
 
     /**
      * Sets the values for all customer data when updating a customer
@@ -79,7 +80,7 @@ public class AddCustomerController {
 
     /**
      * Sets the state combo box values upon initialization
-     * @throws Exception
+     * @throws Exception Exception if encountered
      */
     @FXML
     public void initialize() throws Exception {
@@ -97,7 +98,7 @@ public class AddCustomerController {
         Connection conn = JDBC.getConnection();
         String division = "";
         JDBC.makePreparedStatement("SELECT Division_ID FROM first_level_divisions WHERE Division = '" + state.getSelectionModel().getSelectedItem() + "'", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         while (result.next()) {
             division = result.getString("Division_ID");
         }
@@ -123,7 +124,7 @@ public class AddCustomerController {
     public void setStates(ActionEvent event) throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT Country_ID, Division FROM `FIRST_LEVEL_DIVISIONS`", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         ObservableList<String> states = FXCollections.observableArrayList();
         int countryId = 1;
         if (country.getSelectionModel().getSelectedItem() != null) {

@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * Controller for the Reports FXML file
@@ -49,39 +50,39 @@ public class ReportsController {
     /**
      * Pointer to the FXML id table column
      */
-    @FXML private TableColumn idColumn;
+    @FXML private TableColumn<String, Appointment> idColumn;
     /**
      * Pointer to the FXML title table column
      */
-    @FXML private TableColumn titleColumn;
+    @FXML private TableColumn<String, Appointment> titleColumn;
     /**
      * Pointer to the FXML type table column
      */
-    @FXML private TableColumn typeColumn;
+    @FXML private TableColumn<String, Appointment> typeColumn;
     /**
      * Pointer to the FXML description table column
      */
-    @FXML private TableColumn descriptionColumn;
+    @FXML private TableColumn<String, Appointment> descriptionColumn;
     /**
      * Pointer to the FXML start date table column
      */
-    @FXML private TableColumn startDateColumn;
+    @FXML private TableColumn<String, Appointment> startDateColumn;
     /**
      * Pointer to the FXML start time table column
      */
-    @FXML private TableColumn startTimeColumn;
+    @FXML private TableColumn<String, Appointment> startTimeColumn;
     /**
      * Pointer to the FXML end date table column
      */
-    @FXML private TableColumn endDateColumn;
+    @FXML private TableColumn<String, Appointment> endDateColumn;
     /**
      * Pointer to theFXML end time table column
      */
-    @FXML private TableColumn endTimeColumn;
+    @FXML private TableColumn<String, Appointment> endTimeColumn;
     /**
      * Pointer to the FXML customer id table column
      */
-    @FXML private TableColumn customerIdColumn;
+    @FXML private TableColumn<String, Appointment> customerIdColumn;
     /**
      * Pointer to the FXML total by date label
      */
@@ -103,7 +104,7 @@ public class ReportsController {
     public void initialize() throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT Contact_Name FROM contacts", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         ObservableList<String> contacts = FXCollections.observableArrayList();
         while (result.next()) {
             contacts.add(result.getString("Contact_Name"));
@@ -121,7 +122,7 @@ public class ReportsController {
         if (!(type.getText().equals("") || month.getText().equals(""))) {
             Connection conn = JDBC.getConnection();
             JDBC.makePreparedStatement("SELECT * FROM appointments WHERE Type = '" + type.getText() + "'", conn);
-            ResultSet result = JDBC.getPreparedStatement().executeQuery();
+            ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
             int t = 0;
             while (result.next()) {
@@ -153,7 +154,7 @@ public class ReportsController {
         if (!(startDatePicker.getValue() == null || endDatePicker.getValue() == null)) {
             Connection conn = JDBC.getConnection();
             JDBC.makePreparedStatement("SELECT * FROM appointments", conn);
-            ResultSet result = JDBC.getPreparedStatement().executeQuery();
+            ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
             int t = 0;
             while (result.next()) {
@@ -191,7 +192,7 @@ public class ReportsController {
         Connection conn = JDBC.getConnection();
         String contactId = "";
         JDBC.makePreparedStatement("SELECT Contact_ID FROM contacts WHERE Contact_Name = '" + contact.getValue() + "'", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         while (result.next()) {
             contactId = result.getString("Contact_ID");
         }

@@ -3,6 +3,7 @@ package sample.classes;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Class to hold appointment details
@@ -13,19 +14,19 @@ public class Appointment {
     /**
      * ID of Appointment
      */
-    private int id;
+    private final int id;
     /**
      * Title of Appointment
      */
-    private String title;
+    private final String title;
     /**
      * Description of Appointment
      */
-    private String description;
+    private final String description;
     /**
      * Location of Appointment
      */
-    private String location;
+    private final String location;
     /**
      * Name of the contact assigned to the Appointment
      */
@@ -33,31 +34,31 @@ public class Appointment {
     /**
      * Type of Appointment
      */
-    private String type;
+    private final String type;
     /**
      * Start date of Appointment
      */
-    private LocalDate startDate;
+    private final LocalDate startDate;
     /**
      * Start tIme of Appointment
      */
-    private String startTime;
+    private final String startTime;
     /**
      * End date of Appointment
      */
-    private LocalDate endDate;
+    private final LocalDate endDate;
     /**
      * End time of Appointment
      */
-    private String endTime;
+    private final String endTime;
     /**
      * Customer ID for Appointment
      */
-    private int customerId;
+    private final int customerId;
     /**
      * User ID for Appointment
      */
-    private int userId;
+    private final int userId;
 
     /**
      * Appointment constructor assigning all class variables
@@ -72,7 +73,7 @@ public class Appointment {
      * @param endDate End date of Appointment
      * @param endTime End time of Appointment
      * @param customerId Customer ID for Appointment
-     * @param userId User ID for Appointmnet
+     * @param userId User ID for Appointment
      * @throws Exception Exception if encountered
      */
     public Appointment(int id, String title, String description, String location, int contactId, String type, LocalDate startDate, String startTime, LocalDate endDate, String endTime, int customerId, int userId) throws Exception {
@@ -90,7 +91,7 @@ public class Appointment {
 
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT Contact_Name FROM contacts WHERE Contact_ID = '" + contactId + "'", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         while (result.next()) {
             this.contactName = result.getString("Contact_Name");
         }

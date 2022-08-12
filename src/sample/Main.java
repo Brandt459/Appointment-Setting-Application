@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.classes.JDBC;
 
+import java.util.Objects;
+
 /**
  * Main class to run program
  * @author Brandt Davis
@@ -20,7 +22,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/Login.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("fxml/Login.fxml")));
         primaryStage.setTitle("Scheduling Application");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

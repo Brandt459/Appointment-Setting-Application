@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,7 +56,7 @@ public class AddAppointmentController {
      */
     @FXML private DatePicker startDate;
     /**
-     * Pointer to the start tiem text field
+     * Pointer to the start item text field
      */
     @FXML private TextField startTime;
     /**
@@ -77,7 +78,7 @@ public class AddAppointmentController {
     /**
      * Username of the logged in user
      */
-    private String username = JDBC.getLoggedInUsername();
+    private final String username = JDBC.getLoggedInUsername();
 
     /**
      * Sets the values for all appointment data when updating an appointment
@@ -108,7 +109,7 @@ public class AddAppointmentController {
     public void initialize() throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT Contact_Name FROM contacts", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         ObservableList<String> contacts = FXCollections.observableArrayList();
         while (result.next()) {
             contacts.add(result.getString("Contact_Name"));
@@ -170,7 +171,7 @@ public class AddAppointmentController {
         String contactId = "0";
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT Contact_ID FROM contacts WHERE Contact_Name = '" + contact.getSelectionModel().getSelectedItem() + "'", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         while (result.next()) {
             contactId = result.getString("Contact_ID");
         }

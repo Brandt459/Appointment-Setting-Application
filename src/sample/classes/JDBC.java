@@ -12,7 +12,7 @@ public class JDBC {
     private static final String jdbcUrl = protocol + vendor + location + databaseName + "?connectionTimeZone = SERVER"; // LOCAL
     private static final String driver = "com.mysql.cj.jdbc.Driver"; // Driver reference
     private static final String userName = "sqlUser"; // Username
-    private static String password = "Passw0rd!"; // Password
+    private static final String password = "Passw0rd!"; // Password
     private static Connection connection = null;  // Connection Interface
     private static PreparedStatement preparedStatement;
     private static String loggedInUsername;
@@ -23,9 +23,7 @@ public class JDBC {
               //password = Details.getPassword(); // Assign password
               connection = DriverManager.getConnection(jdbcUrl, userName, password); // reference Connection object
               System.out.println("Connection successful!");
-          } catch(ClassNotFoundException e) {
-              System.out.println("Error:" + e.getMessage());
-          } catch(SQLException e) {
+          } catch(ClassNotFoundException | SQLException e) {
               System.out.println("Error:" + e.getMessage());
           }
      }

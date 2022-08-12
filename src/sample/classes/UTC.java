@@ -16,7 +16,6 @@ public class UTC {
      * @return lambda function
      */
     public static DateTimeFunction getUTC() {
-        DateTimeFunction utcTime = (date, time) -> LocalDateTime.parse(date + "T" + time).atZone(ZoneId.of("Etc/UTC"));
-        return utcTime;
+        return (date, time) -> LocalDateTime.parse(date + "T" + time).atZone(ZoneId.of("Etc/UTC"));
     }
 }

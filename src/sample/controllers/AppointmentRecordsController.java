@@ -12,10 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import sample.classes.Appointment;
-import sample.classes.FormatPath;
-import sample.classes.JDBC;
-import sample.classes.SwitchScene;
+import sample.classes.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,10 +23,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Controller fo the Appointmenr Records FXML file
+ * Controller for the Appointment Records FXML file
  * @author Brandt Davis
  * @version 1.0
  */
@@ -41,51 +39,51 @@ public class AppointmentRecordsController {
     /**
      * Pointer to the FXML id table column
      */
-    @FXML private TableColumn idColumn;
+    @FXML private TableColumn<String, Appointment> idColumn;
     /**
      * Pointer to the FXML title table column
      */
-    @FXML private TableColumn titleColumn;
+    @FXML private TableColumn<String, Appointment> titleColumn;
     /**
      * Pointer to the FXML description table column
      */
-    @FXML private TableColumn descriptionColumn;
+    @FXML private TableColumn<String, Appointment> descriptionColumn;
     /**
      * Pointer to the FXML location table column
      */
-    @FXML private TableColumn locationColumn;
+    @FXML private TableColumn<String, Appointment> locationColumn;
     /**
      * Pointer to the FXML contact table column
      */
-    @FXML private TableColumn contactColumn;
+    @FXML private TableColumn<String, Appointment> contactColumn;
     /**
      * Pointer to the FXML type table column
      */
-    @FXML private TableColumn typeColumn;
+    @FXML private TableColumn<String, Appointment> typeColumn;
     /**
      * Pointer to the FXML start date table column
      */
-    @FXML private TableColumn startDateColumn;
+    @FXML private TableColumn<String, Appointment> startDateColumn;
     /**
      * Pointer to the FXML star time table column
      */
-    @FXML private TableColumn startTimeColumn;
+    @FXML private TableColumn<String, Appointment> startTimeColumn;
     /**
      * Pointer to the FXML end date table column
      */
-    @FXML private TableColumn endDateColumn;
+    @FXML private TableColumn<String, Appointment> endDateColumn;
     /**
      * Pointer to the FXML end time table column
      */
-    @FXML private TableColumn endTimeColumn;
+    @FXML private TableColumn<String, Appointment> endTimeColumn;
     /**
      * Pointer to the FXML customer id table column
      */
-    @FXML private TableColumn customerIdColumn;
+    @FXML private TableColumn<String, Appointment> customerIdColumn;
     /**
      * Pointer to the FXML user id table column
      */
-    @FXML private TableColumn userIdColumn;
+    @FXML private TableColumn<String, Appointment> userIdColumn;
     /**
      * Pointer to the FXML filter by month radio button
      */
@@ -123,7 +121,7 @@ public class AppointmentRecordsController {
     public void setAppointmentTable() throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT * FROM appointments", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         while (result.next()) {
             int id = Integer.parseInt(result.getString("Appointment_ID"));
@@ -218,10 +216,9 @@ public class AppointmentRecordsController {
     /**
      * Calls the filter() method when one of the filter radio buttons is selected
      * @param event ActionEvent object
-     * @throws Exception Exception if encountered
      */
     @FXML
-    private void filterRadio(ActionEvent event) throws Exception {
+    private void filterRadio(ActionEvent event) {
         filter();
     }
 
@@ -292,7 +289,7 @@ public class AppointmentRecordsController {
                     Connection conn = JDBC.getConnection();
 
                     JDBC.makePreparedStatement("DELETE FROM appointments WHERE Appointment_ID = '" + appointment.getId() + "'", conn);
-                    JDBC.getPreparedStatement().execute();
+                    Objects.requireNonNull(JDBC.getPreparedStatement()).execute();
 
                     Alert informationAlert = new Alert(Alert.AlertType.INFORMATION);
                     informationAlert.setHeaderText("Info");

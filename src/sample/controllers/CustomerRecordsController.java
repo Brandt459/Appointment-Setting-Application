@@ -21,6 +21,7 @@ import sample.classes.SwitchScene;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -36,31 +37,31 @@ public class CustomerRecordsController {
     /**
      * Pointer to the FXML id table column
      */
-    @FXML private TableColumn idColumn;
+    @FXML private TableColumn<String, Customer> idColumn;
     /**
      * Pointer to the FXML name table column
      */
-    @FXML private TableColumn nameColumn;
+    @FXML private TableColumn<String, Customer> nameColumn;
     /**
      * Pointer to the FXML address table column
      */
-    @FXML private TableColumn addressColumn;
+    @FXML private TableColumn<String, Customer> addressColumn;
     /**
      * Pointer to the FXML state/province table column
      */
-    @FXML private TableColumn stateColumn;
+    @FXML private TableColumn<String, Customer> stateColumn;
     /**
      * Pointer to the FXML country table column
      */
-    @FXML private TableColumn countryColumn;
+    @FXML private TableColumn<String, Customer> countryColumn;
     /**
      * Pointer to the FXML postal code table column
      */
-    @FXML private TableColumn postalColumn;
+    @FXML private TableColumn<String, Customer> postalColumn;
     /**
      * Pointer to the FXML phone number table column
      */
-    @FXML private TableColumn phoneColumn;
+    @FXML private TableColumn<String, Customer> phoneColumn;
 
     /**
      * Sets the customer table upon initialization
@@ -78,7 +79,7 @@ public class CustomerRecordsController {
     public void setCustomerTables() throws Exception {
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT * FROM customers", conn);
-        ResultSet result = JDBC.getPreparedStatement().executeQuery();
+        ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         ObservableList<Customer> customers = FXCollections.observableArrayList();
         while (result.next()) {
             int id = Integer.parseInt(result.getString("Customer_ID"));
@@ -167,7 +168,7 @@ public class CustomerRecordsController {
                     Connection conn = JDBC.getConnection();
 
                     JDBC.makePreparedStatement("DELETE FROM appointments WHERE Customer_ID = '" + customer.getId() + "'", conn);
-                    JDBC.getPreparedStatement().execute();
+                    Objects.requireNonNull(JDBC.getPreparedStatement()).execute();
 
                     JDBC.makePreparedStatement("DELETE FROM customers WHERE Customer_ID = '" + customer.getId() + "'", conn);
                     JDBC.getPreparedStatement().execute();
