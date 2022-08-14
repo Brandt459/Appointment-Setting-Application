@@ -16,6 +16,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -80,15 +81,18 @@ public class LoginController {
             JDBC.setLoggedInUsername(username.getText());
             JDBC.makePreparedStatement("SELECT Appointment_ID, Start FROM appointments WHERE User_ID = '" + result.getString("User_ID") + "'", conn);
             result = JDBC.getPreparedStatement().executeQuery();
-            ZonedDateTime now = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().atZone(ZoneId.systemDefault());
+            ZonedDateTime now = LocalDateTime.now().atZone(ZoneId.systemDefault());
             boolean upcomingAppointment = false;
             while (result.next()) {
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
                 String[] sArr = result.getString("Start").split(" ");
                 ZonedDateTime start = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC")).toInstant().atZone(ZoneId.systemDefault());
+                String startValue = start.format(dtf);
+                sArr = startValue.split(" ");
                 if (start.compareTo(now) > 0 && now.plusMinutes(15).compareTo(start) >= 0) {
                     Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
                     infoAlert.setHeaderText("Upcoming Appointment");
-                    infoAlert.setContentText("You have an upcoming appointment \nAppointment ID: " + result.getString("Appointment_ID") + "\nDate: " + sArr[0] + "\nTime: " + sArr[1]);
+                    infoAlert.setContentText("You have an upcoming appointment \nAppointment ID: " + sArr[0] + "\nDate: " + sArr[0] + "\nTime: " + sArr[1]);
                     infoAlert.show();
                     upcomingAppointment = true;
                 }
