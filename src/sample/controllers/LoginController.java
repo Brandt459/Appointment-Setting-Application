@@ -83,10 +83,16 @@ public class LoginController {
             result = JDBC.getPreparedStatement().executeQuery();
             ZonedDateTime now = LocalDateTime.now().atZone(ZoneId.systemDefault());
             boolean upcomingAppointment = false;
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
+            ZonedDateTime start;
+            ZoneId zone = ZoneId.systemDefault();
             while (result.next()) {
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
                 String[] sArr = result.getString("Start").split(" ");
-                ZonedDateTime start = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC")).toInstant().atZone(ZoneId.systemDefault());
+                try {
+                    start = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC")).toInstant().atZone(zone);
+                } catch (Exception e) {
+                    start = LocalDateTime.parse(sArr[0] + "T" + sArr[1]).atZone(ZoneId.of("Etc/UTC")).toInstant().atZone(ZoneId.of(zone.toString(), ZoneId.SHORT_IDS));
+                }
                 String startValue = start.format(dtf);
                 sArr = startValue.split(" ");
                 if (start.compareTo(now) > 0 && now.plusMinutes(15).compareTo(start) >= 0) {
