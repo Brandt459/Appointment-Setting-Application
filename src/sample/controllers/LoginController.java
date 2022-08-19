@@ -7,6 +7,7 @@ import sample.classes.FormatPath;
 import sample.classes.JDBC;
 import sample.classes.SwitchScene;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -113,7 +114,8 @@ public class LoginController {
         }
 
         String text = "Username: " + username.getText() + "\nTime: " + Instant.now() + "\nSuccess: " + success +"\n\n";
-        Path fileName = Path.of("/Users/LabUser/IdeaProjects/HelloWorldJFX/login_activity.txt");
+        File file = new File("login_activity.txt");
+        Path fileName = file.toPath();
         Files.writeString(fileName, text, StandardOpenOption.APPEND);
         if (success) {
             SwitchScene.switchScene(event, FormatPath.format().run("Main"));
