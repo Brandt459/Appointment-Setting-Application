@@ -13,7 +13,6 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,11 +71,7 @@ public class AddAppointmentController {
      */
     @FXML private TextField customerId;
     /**
-     * Pointer to the user ID text field
-     */
-    @FXML private TextField userId;
-    /**
-     * Username of the logged in user
+     * Username of the logged-in user
      */
     private final String username = JDBC.getLoggedInUsername();
 
@@ -98,7 +93,6 @@ public class AddAppointmentController {
         endDate.setValue(appointment.getEndDate());
         endTime.setText(appointment.getEndTime());
         customerId.setText(String.valueOf(appointment.getCustomerId()));
-        userId.setText(String.valueOf(appointment.getUserId()));
     }
 
     /**
@@ -222,14 +216,13 @@ public class AddAppointmentController {
         }
 
         if (addOrUpdateAppointment.getText().equals("Add Appointment")) {
-            int idValue = UUID.randomUUID().hashCode();
-            JDBC.makePreparedStatement("INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) " +
-                    "VALUES ('" + idValue + "', '" + title.getText() + "', '" + description.getText() + "', '" + locationValue.getText() + "', '" + type.getText() + "', '" +
-                    startValue + "', '" + endValue + "', '" + instant + "', '" + username + "', '" + instant + "', '" + username + "', '" + customerId.getText() + "', '" + userId.getText() + "', '" + contactId + "')", conn);
+            JDBC.makePreparedStatement("INSERT INTO appointments (Title, Description, Location, Type, Start, End, Create_Date, Created_By, Last_Update, Last_Updated_By, Customer_ID, Contact_ID) " +
+                    "VALUES ('" + title.getText() + "', '" + description.getText() + "', '" + locationValue.getText() + "', '" + type.getText() + "', '" +
+                    startValue + "', '" + endValue + "', '" + instant + "', '" + username + "', '" + instant + "', '" + username + "', '" + customerId.getText() + "', '" + contactId + "')", conn);
         } else {
             JDBC.makePreparedStatement("UPDATE appointments SET Title = '" + title.getText() + "', Description = '" + description.getText() + "', Location = '" +
                     locationValue.getText() + "', Type = '" + type.getText() + "', Start = '" + startValue + "', End = '" + endValue + "', Last_Update = '" + instant + "', Last_Updated_By = '" +
-                    username + "', Customer_ID = '" + customerId.getText() + "', User_ID = '" + userId.getText() + "', Contact_ID = '" + contactId + "' WHERE Appointment_ID = '" + id.getText() + "'", conn);
+                    username + "', Customer_ID = '" + customerId.getText() + "', Contact_ID = '" + contactId + "' WHERE Appointment_ID = '" + id.getText() + "'", conn);
         }
         JDBC.getPreparedStatement().execute();
         switchToMain(event);

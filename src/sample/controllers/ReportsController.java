@@ -225,8 +225,7 @@ public class ReportsController {
             LocalDate endDate = LocalDate.parse(endStringArray[0]);
             String endTime = endStringArray[1];
             int customerId = Integer.parseInt(result.getString("Customer_ID"));
-            int userId = Integer.parseInt(result.getString("User_ID"));
-            Appointment appointment = new Appointment(id, title, description, location, Integer.parseInt(contactId), type, startDate, startTime, endDate, endTime, customerId, userId);
+            Appointment appointment = new Appointment(id, title, description, location, Integer.parseInt(contactId), type, startDate, startTime, endDate, endTime, customerId);
             appointments.add(appointment);
         }
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));

@@ -55,10 +55,6 @@ public class Appointment {
      * Customer ID for Appointment
      */
     private final int customerId;
-    /**
-     * User ID for Appointment
-     */
-    private final int userId;
 
     /**
      * Appointment constructor assigning all class variables
@@ -73,10 +69,9 @@ public class Appointment {
      * @param endDate End date of Appointment
      * @param endTime End time of Appointment
      * @param customerId Customer ID for Appointment
-     * @param userId User ID for Appointment
      * @throws Exception Exception if encountered
      */
-    public Appointment(int id, String title, String description, String location, int contactId, String type, LocalDate startDate, String startTime, LocalDate endDate, String endTime, int customerId, int userId) throws Exception {
+    public Appointment(int id, String title, String description, String location, int contactId, String type, LocalDate startDate, String startTime, LocalDate endDate, String endTime, int customerId) throws Exception {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -87,7 +82,6 @@ public class Appointment {
         this.endDate = endDate;
         this.endTime = endTime;
         this.customerId = customerId;
-        this.userId = userId;
 
         Connection conn = JDBC.getConnection();
         JDBC.makePreparedStatement("SELECT Contact_Name FROM contacts WHERE Contact_ID = '" + contactId + "'", conn);
@@ -181,13 +175,5 @@ public class Appointment {
      */
     public int getCustomerId() {
          return customerId;
-    }
-
-    /**
-       * Returns the user id of the appointment
-       * @return The user id of the appointment
-     */
-    public int getUserId() {
-        return userId;
     }
 }

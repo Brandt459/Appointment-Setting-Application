@@ -17,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Controller for the AddCustomer FXML file
@@ -58,7 +57,7 @@ public class AddCustomerController {
      */
     @FXML private ComboBox<String> state;
     /**
-     * username of the logged in user
+     * username of the logged-in user
      */
     private final String username = JDBC.getLoggedInUsername();
 
@@ -103,9 +102,8 @@ public class AddCustomerController {
             division = result.getString("Division_ID");
         }
         if (addOrUpdateCustomer.getText().equals("Add Customer")) {
-            int idValue = UUID.randomUUID().hashCode();
-            JDBC.makePreparedStatement("INSERT INTO customers (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) " +
-                    "VALUES ('" + idValue + "', '" + name.getText() + "', '" + address.getText() + "', '" + postalCode.getText() + "', '" + phoneNumber.getText() + "', '" +
+            JDBC.makePreparedStatement("INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Create_Date, Created_By, Last_Update, Last_Updated_By, Division_ID) " +
+                    "VALUES ('" + name.getText() + "', '" + address.getText() + "', '" + postalCode.getText() + "', '" + phoneNumber.getText() + "', '" +
                     instant + "', '" + username + "', '" + instant + "', '" + username + "', '" + division + "')", conn);
         } else {
             JDBC.makePreparedStatement("UPDATE customers SET Customer_Name = '" + name.getText() + "', Address = '" + address.getText() + "', Postal_Code = '" + postalCode.getText() +
@@ -123,7 +121,7 @@ public class AddCustomerController {
     @FXML
     public void setStates(ActionEvent event) throws Exception {
         Connection conn = JDBC.getConnection();
-        JDBC.makePreparedStatement("SELECT Country_ID, Division FROM `FIRST_LEVEL_DIVISIONS`", conn);
+        JDBC.makePreparedStatement("SELECT Country_ID, Division FROM `first_level_divisions`", conn);
         ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         ObservableList<String> states = FXCollections.observableArrayList();
         int countryId = 1;

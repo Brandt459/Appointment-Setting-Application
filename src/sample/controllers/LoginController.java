@@ -69,7 +69,7 @@ public class LoginController {
     @FXML
     public void login(ActionEvent event) throws Exception {
         Connection conn = JDBC.getConnection();
-        JDBC.makePreparedStatement("SELECT User_ID FROM USERS WHERE User_Name = '" + username.getText() + "' AND Password = '" + password.getText() + "'", conn);
+        JDBC.makePreparedStatement("SELECT User_ID FROM users WHERE User_Name = '" + username.getText() + "' AND Password = '" + password.getText() + "'", conn);
         ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         boolean success = false;
         if (!result.next()) {
@@ -80,7 +80,7 @@ public class LoginController {
             errorAlert.showAndWait();
         } else {
             JDBC.setLoggedInUsername(username.getText());
-            JDBC.makePreparedStatement("SELECT Appointment_ID, Start FROM appointments WHERE User_ID = '" + result.getString("User_ID") + "'", conn);
+            JDBC.makePreparedStatement("SELECT Appointment_ID, Start FROM appointments WHERE Contact_ID = ( SELECT Contact_ID FROM contacts WHERE User_ID = '" + result.getString("User_ID") + "')", conn);
             result = JDBC.getPreparedStatement().executeQuery();
             ZonedDateTime now = LocalDateTime.now().atZone(ZoneId.systemDefault());
             boolean upcomingAppointment = false;

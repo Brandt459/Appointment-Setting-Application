@@ -60,19 +60,19 @@ public class Customer {
         ResultSet result = Objects.requireNonNull(JDBC.getPreparedStatement()).executeQuery();
         String countryId = "";
         while (result.next()) {
-            state = result.getString("Division");
+            this.state = result.getString("Division");
             countryId = result.getString("Country_ID");
         }
         JDBC.makePreparedStatement("SELECT Country FROM countries WHERE Country_ID = '" + countryId + "'", conn);
         result = JDBC.getPreparedStatement().executeQuery();
         while (result.next()) {
-            country = result.getString("Country");
+            this.country = result.getString("Country");
         }
     }
 
     /**
      * Returns the customer ID
-     * @return THe customer ID
+     * @return The customer ID
      */
     public int getId() {
         return id;
@@ -96,7 +96,7 @@ public class Customer {
 
     /**
      * Returns the state/province/division the customer is in
-     * @return THe state/province/division the customer is in
+     * @return The state/province/division the customer is in
      */
     public String getState() {
         return state;

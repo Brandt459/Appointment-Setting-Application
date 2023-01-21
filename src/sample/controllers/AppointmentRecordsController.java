@@ -81,10 +81,6 @@ public class AppointmentRecordsController {
      */
     @FXML private TableColumn<String, Appointment> customerIdColumn;
     /**
-     * Pointer to the FXML user id table column
-     */
-    @FXML private TableColumn<String, Appointment> userIdColumn;
-    /**
      * Pointer to the FXML filter by month radio button
      */
     @FXML private RadioButton filterMonth;
@@ -148,9 +144,8 @@ public class AppointmentRecordsController {
             LocalDate endDate = LocalDate.parse(endStringArray[0]);
             String endTime = endStringArray[1];
             int customerId = Integer.parseInt(result.getString("Customer_ID"));
-            int userId = Integer.parseInt(result.getString("User_ID"));
             int contactId = Integer.parseInt(result.getString("Contact_ID"));
-            Appointment appointment = new Appointment(id, title, description, location, contactId, type, startDate, startTime, endDate, endTime, customerId, userId);
+            Appointment appointment = new Appointment(id, title, description, location, contactId, type, startDate, startTime, endDate, endTime, customerId);
             appointments.add(appointment);
             appointmentsList.addAll(appointment);
         }
@@ -165,7 +160,6 @@ public class AppointmentRecordsController {
         endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         endTimeColumn.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        userIdColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
         appointmentTable.setItems(appointments);
     }
 

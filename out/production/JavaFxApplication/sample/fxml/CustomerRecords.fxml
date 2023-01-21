@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="375.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.CustomerRecordsController">
+<AnchorPane prefHeight="375.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.CustomerRecordsController">
    <children>
       <Label layoutX="40.0" layoutY="25.0" text="Customer Records">
          <font>
@@ -22,8 +22,8 @@
             <TableColumn fx:id="phoneColumn" minWidth="100.0" prefWidth="100.0" text="Phone Number" />
         </columns>
       </TableView>
-      <Button layoutX="280.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToAddCustomer" text="Add Customer" />
-      <Button layoutX="380.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToUpdateCustomer" text="Update Customer" />
+      <Button layoutX="240.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToAddCustomer" text="Add Customer" />
+      <Button layoutX="360.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToUpdateCustomer" text="Update Customer" />
       <Button layoutX="650.0" layoutY="300.0" mnemonicParsing="false" onAction="#switchToMain" text="Return" />
       <Button layoutX="500.0" layoutY="300.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
    </children>
